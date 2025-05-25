@@ -3,7 +3,7 @@
   # library(dplyr)
   library(DT) 
   library(shiny)
-  library(writexl)
+  # library(writexl)
 }
 # Workaround for Chromium Issue 468227
 downloadButton <- function(...) {
@@ -76,7 +76,21 @@ ui <- fluidPage(
     ),
     
     mainPanel(
-      DTOutput("table")
+      div(
+        style = "
+    position: fixed;
+    top: 60px;
+    right: 0;
+    width: 67.5%;
+    height: 80vh;
+    overflow-y: auto;
+    background-color: white;
+    z-index: 999;
+    padding: 10px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  ",
+        DTOutput("table")
+      )
     )
   )
 )
@@ -162,7 +176,7 @@ server <- function(input, output, session) {
             "_", Sys.Date(), ".xlsx", sep = "")
     },
     content = function(file) {
-      write_xlsx(df(), file)
+      write.csv(df(), file)
     }
   )
 }
