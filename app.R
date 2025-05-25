@@ -159,10 +159,10 @@ server <- function(input, output, session) {
       df_current <- df()
       paste("energy_density_tbl_samples_", 
             unique(df_current$project_id),
-            "_", Sys.Date(), ".csv", sep = "")
+            "_", Sys.Date(), ".xlsx", sep = "")
     },
     content = function(file) {
-      write.csv(df(), file)
+      write_xlsx(df(), file)
     }
   )
 }
