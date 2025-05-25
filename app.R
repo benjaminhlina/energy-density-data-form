@@ -124,12 +124,12 @@ server <- function(input, output, session) {
     
     
     # Validate lat/lon
-    if (is.na(input$latitude) || input$latitude < 15 || input$latitude > 85) {
+    if (input$latitude < 15 || input$latitude > 85) {
       showNotification("Latitude must be between 15 and 85 (North America).", 
                        type = "error")
       return()
     }
-    if (is.na(input$longitude) || input$longitude < -170 || input$longitude > -50) {
+    if (input$longitude < -170 || input$longitude > -50) {
       showNotification("Longitude must be between -170 and -50 (North America).", 
                        type = "error")
       return()
