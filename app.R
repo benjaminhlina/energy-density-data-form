@@ -173,7 +173,7 @@ server <- function(input, output, session) {
       df_current <- df()
       paste("energy_density_tbl_samples_", 
             unique(df_current$project_id),
-            "_", Sys.Date(), ".xlsx", sep = "")
+            "_", Sys.Date(), ".csv", sep = "")
     },
     content = function(file) {
       # Use write.csv to a string, then write as plain text
