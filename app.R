@@ -80,7 +80,7 @@ server <- function(input, output, session) {
   # ---- limit sci name entry ---- 
   observe({
     updateSelectizeInput(session, "scientific_name",
-                         choices = c("", "test"),
+                         choices = c("", sort(fw_fish_genus_sp$genus_species)),
                          selected = NULL, 
                          server = TRUE,)
   })
