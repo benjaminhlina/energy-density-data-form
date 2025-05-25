@@ -1,44 +1,23 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    https://shiny.posit.co/
-#
+# ---- bring in pkgs ----- 
 {
   # library(dplyr)
   library(DT) 
-  # library(here)
-  # library(readr)
-  # library(openxlsx)
   library(shiny)
+  library(writexl)
 }
 
+# ----- bring in column names ---- 
+# first grab teh url 
+column_url <- "https://raw.githubusercontent.com/benjaminhlina/energy-density-data-form/refs/heads/main/data-raw/data-raw/column_names_tbl_sample.csv"
+# read csv 
+column_names <- read.csv(column_url)
 
-# Define column names
-# column_names <- read_csv(here("data-raw",
-#                               "column_names_tbl_sample.csv"))
-# 
-# 
-# dput(column_names$columns)
+# ----- bring in fw fish species ---- 
+fw_sp_url <- "https://raw.githubusercontent.com/benjaminhlina/energy-density-data-form/refs/heads/main/data-raw/data-raw/fw_fish_genus_sepcies.csv"
 
-column_names <- data.frame(columns = c("project_id", 
-                                       "date", "month", "year", 
-                                       "scientific_name", "wild_lab", 
-                                       "lifestage", "age", "sex", 
-                                       "fork_length", "total_length", "weight", 
-                                       "composite", "composite_n", 
-                                       "tissue_type", "sample_procedure", 
-                                       "waterbody", "area", "site", 
-                                       "site_depth", "latitude (dd.ddddd)", 
-                                       "longitude (ddd.ddddd)", 
-                                       "calorimetry_method")
-)
-# fw_fish_genus_sp <- read_csv(here("data-raw",
-#                                   "fw_fish_genus_sepcies.csv"))
+fw_fish_genus_sp <- read.csv(fw_sp_url)
 
-# ---- shiny appp ----- 
+# ---- shiny app ui ----- 
 ui <- fluidPage(
   titlePanel("Energy Density Data Form"),
   sidebarLayout(
