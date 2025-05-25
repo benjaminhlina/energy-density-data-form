@@ -3,7 +3,6 @@
   # library(dplyr)
   library(DT) 
   library(shiny)
-  library(writexl)
 }
 
 # ----- bring in column names ---- 
@@ -154,10 +153,10 @@ server <- function(input, output, session) {
       df_current <- df()
       paste("energy_density_tbl_samples_", 
             unique(df_current$project_id),
-            "_", Sys.Date(), ".xlsx", sep = "")
+            "_", Sys.Date(), ".csv", sep = "")
     },
     content = function(file) {
-      write_xlsx(df(), file)
+      write.csv(df(), file)
     }
   )
 }
