@@ -3,8 +3,14 @@
   # library(dplyr)
   library(DT) 
   library(shiny)
+  library(writexl)
 }
-
+# Workaround for Chromium Issue 468227
+downloadButton <- function(...) {
+  tag <- shiny::downloadButton(...)
+  tag$attribs$download <- NULL
+  tag
+}
 # ----- bring in column names ---- 
 # first grab teh url 
 column_url <- "https://raw.githubusercontent.com/benjaminhlina/energy-density-data-form/refs/heads/main/data-raw/data-raw/column_names_tbl_sample.csv"
