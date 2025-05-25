@@ -1,0 +1,24 @@
+columns
+project_id
+date
+month
+year
+scientific_name
+wild_lab
+lifestage
+age
+sex
+fork_length
+total_length
+weight
+composite
+composite_n
+tissue_type
+sample_procedure
+waterbody
+area
+site
+site_depth
+latitude (dd.ddddd)
+longitude (ddd.ddddd)
+calorimetry_method
