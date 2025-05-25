@@ -176,8 +176,12 @@ server <- function(input, output, session) {
             "_", Sys.Date(), ".xlsx", sep = "")
     },
     content = function(file) {
-      write.csv(df(), file)
-    }
+      # Use write.csv to a string, then write as plain text
+      tmp <- tempfile()
+      write.csv(df(), tmp, row.names = FALSE)
+      writeLines(readLines(tmp), file)
+    },
+    contentType = "text/csv"
   )
 }
 
