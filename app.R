@@ -75,7 +75,7 @@ ui <- dashboardPage(
                     numericInput("latitude", "Latitude (dd.ddddd)", value = NA, min = 15, max = 85),
                     numericInput("longitude", "Longitude (ddd.ddddd)", value = NA, min = -170, max = -50),
                     textInput("calorimetry_method", "Calorimetry Method"),
-                    fileInput("upload_csv", "Upload CSV",  
+                    fileInput("upload_csv", "Upload csv",  
                               accept = c("text/csv", 
                                          "text/comma-separated-values,text/plain", 
                                          ".csv")),
@@ -83,7 +83,7 @@ ui <- dashboardPage(
                     actionButton("add_row", "Add Row", icon = icon("plus")), 
                     actionButton("edit_row", "Edit Selected Row", icon = icon("edit")),
                     actionButton("delete_row", "Delete Selected Row", icon = icon("trash")),
-                    downloadButton("download", "Download Excel")
+                    downloadButton("download", "Download csv")
                 ),
                 box(width = 8, title = "Table", 
                     solidHeader = TRUE, 
@@ -188,73 +188,73 @@ server <- function(input, output, session) {
   
   
   
-  # observeEvent(input$edit_row, {
-  #   selected <- input$table_rows_selected
-  #   if (length(selected) != 1) {
-  #     showNotification("Select a row to edit.", type = "error")
-  #     return()
-  #   }
-  #   
-  #   # Validate fields here, same as in add_row...
-  #   
-  #   new_row <- data.frame(
-  #     project_id = input$project_id,
-  #     date = input$date,
-  #     scientific_name = input$scientific_name,
-  #     wild_lab = input$wild_lab,
-  #     lifestage = input$lifestage,
-  #     age = input$age,
-  #     sex = input$sex,
-  #     fork_length = input$fork_length,
-  #     total_length = input$total_length,
-  #     weight = input$weight,
-  #     composite = input$composite,
-  #     composite_n = input$composite_n,
-  #     tissue_type = input$tissue_type,
-  #     sample_procedure = input$sample_procedure,
-  #     waterbody = input$waterbody,
-  #     area = input$area,
-  #     site = input$site,
-  #     site_depth = input$site_depth,
-  #     `latitude (dd.ddddd)` = input$latitude,
-  #     `longitude (ddd.ddddd)` = input$longitude,
-  #     calorimetry_method = input$calorimetry_method,
-  #     stringsAsFactors = FALSE
-  #   )
-  #   
-  #   new_df <- df()
-  #   new_df[selected, ] <- new_row
-  #   df(new_df)
-  # })
-  # 
-  #   observeEvent(input$table_rows_selected, {
-  #   selected <- input$table_rows_selected
-  #   if (length(selected) == 1) {
-  #     row <- df()[selected, ]
-  # 
-  #     updateTextInput(session, "project_id", value = row$project_id)
-  #     updateDateInput(session, "date", value = row$date)
-  #     updateTextInput(session, "scientific_name", value = row$scientific_name)
-  #     updateSelectInput(session, "wild_lab", selected = row$wild_lab)
-  #     updateSelectInput(session, "lifestage", selected = row$lifestage)
-  #     updateTextInput(session, "age", value = row$age)
-  #     updateSelectInput(session, "sex", selected = row$sex)
-  #     updateNumericInput(session, "fork_length", value = row$fork_length)
-  #     updateNumericInput(session, "total_length", value = row$total_length)
-  #     updateNumericInput(session, "weight", value = row$weight)
-  #     updateCheckboxInput(session, "composite", value = row$composite)
-  #     updateNumericInput(session, "composite_n", value = row$composite_n)
-  #     updateSelectInput(session, "tissue_type", selected = row$tissue_type)
-  #     updateTextInput(session, "sample_procedure", value = row$sample_procedure)
-  #     updateTextInput(session, "waterbody", value = row$waterbody)
-  #     updateTextInput(session, "area", value = row$area)
-  #     updateTextInput(session, "site", value = row$site)
-  #     updateNumericInput(session, "site_depth", value = row$site_depth)
-  #     updateNumericInput(session, "latitude", value = row$`latitude (dd.ddddd)`)
-  #     updateNumericInput(session, "longitude", value = row$`longitude (ddd.ddddd)`)
-  #     updateSelectInput(session, "calorimetry_method", selected = row$calorimetry_method)
-  #   }
-  # })
+  observeEvent(input$edit_row, {
+    selected <- input$table_rows_selected
+    if (length(selected) != 1) {
+      showNotification("Select a row to edit.", type = "error")
+      return()
+    }
+
+    # Validate fields here, same as in add_row...
+
+    new_row <- data.frame(
+      project_id = input$project_id,
+      date = input$date,
+      scientific_name = input$scientific_name,
+      wild_lab = input$wild_lab,
+      lifestage = input$lifestage,
+      age = input$age,
+      sex = input$sex,
+      fork_length = input$fork_length,
+      total_length = input$total_length,
+      weight = input$weight,
+      composite = input$composite,
+      composite_n = input$composite_n,
+      tissue_type = input$tissue_type,
+      sample_procedure = input$sample_procedure,
+      waterbody = input$waterbody,
+      area = input$area,
+      site = input$site,
+      site_depth = input$site_depth,
+      `latitude (dd.ddddd)` = input$latitude,
+      `longitude (ddd.ddddd)` = input$longitude,
+      calorimetry_method = input$calorimetry_method,
+      stringsAsFactors = FALSE
+    )
+
+    new_df <- df()
+    new_df[selected, ] <- new_row
+    df(new_df)
+  })
+
+    observeEvent(input$table_rows_selected, {
+    selected <- input$table_rows_selected
+    if (length(selected) == 1) {
+      row <- df()[selected, ]
+
+      updateTextInput(session, "project_id", value = row$project_id)
+      updateDateInput(session, "date", value = row$date)
+      updateTextInput(session, "scientific_name", value = row$scientific_name)
+      updateSelectInput(session, "wild_lab", selected = row$wild_lab)
+      updateSelectInput(session, "lifestage", selected = row$lifestage)
+      updateTextInput(session, "age", value = row$age)
+      updateSelectInput(session, "sex", selected = row$sex)
+      updateNumericInput(session, "fork_length", value = row$fork_length)
+      updateNumericInput(session, "total_length", value = row$total_length)
+      updateNumericInput(session, "weight", value = row$weight)
+      updateCheckboxInput(session, "composite", value = row$composite)
+      updateNumericInput(session, "composite_n", value = row$composite_n)
+      updateSelectInput(session, "tissue_type", selected = row$tissue_type)
+      updateTextInput(session, "sample_procedure", value = row$sample_procedure)
+      updateTextInput(session, "waterbody", value = row$waterbody)
+      updateTextInput(session, "area", value = row$area)
+      updateTextInput(session, "site", value = row$site)
+      updateNumericInput(session, "site_depth", value = row$site_depth)
+      updateNumericInput(session, "latitude", value = row$`latitude (dd.ddddd)`)
+      updateNumericInput(session, "longitude", value = row$`longitude (ddd.ddddd)`)
+      updateSelectInput(session, "calorimetry_method", selected = row$calorimetry_method)
+    }
+  })
   observeEvent(input$upload_csv, {
     req(input$upload_csv)
     
