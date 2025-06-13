@@ -51,9 +51,14 @@ ui <- dashboardPage(
                                      placeholder = 'Start typing a Genus and species ...'
                                    )),
                     selectInput("wild_lab", "Wild or Lab", choices = c("wild", "lab"), selected = NULL),
-                    selectInput("lifestage", "Lifestage", choices = c("fry", "larva", "juvenile", "adult"), selected = NULL),
+                    selectInput("lifestage", "Lifestage", 
+                                choices = c("fry", "larva", 
+                                            "juvenile", "adult"), 
+                                selected = NULL),
                     numericInput("age", "Age", value = NA, min = 0),
-                    selectInput("sex", "Sex", choices = c("female", "male", "unknown"), selected = NULL),
+                    selectInput("sex", "Sex", choices = c("female", "male", 
+                                                          "unknown", 
+                                                          "mixed"), selected = NULL),
                     numericInput("fork_length", "Fork Length (mm)", value = NA, min = 0),
                     numericInput("total_length", "Total Length (mm)", value = NA, min = 0),
                     numericInput("weight", "Weight (g)", value = NA, min = 0),
@@ -89,16 +94,16 @@ ui <- dashboardPage(
                     solidHeader = TRUE, 
                     status = "info",
                     div(
-                      style = "position: fixed;
-                      top: 60px;
-                      right: 0;
-                      width: 50%;
-                      height: 80vh;
-                      overflow-y: auto;
-                      background-color: white;
-                      z-index: 999;
-                      padding: 10px;
-                      box-shadow: -2px 0 5px rgba(0,0,0,0.1);",
+                      # style = "position: fixed;
+                      # top: 60px;
+                      # right: 0;
+                      # width: 50%;
+                      # height: 80vh;
+                      # overflow-y: auto;
+                      # background-color: white;
+                      # z-index: 999;
+                      # padding: 10px;
+                      # box-shadow: -2px 0 5px rgba(0,0,0,0.1);",
                       DTOutput("table")
                     )
                 )
@@ -181,7 +186,12 @@ server <- function(input, output, session) {
   
   
   output$table <- renderDT({
-    datatable(df(), options = list(pageLength = 5), 
+    datatable(df(), options = list(pageLength = 5, 
+                                   scrollY = "60vh",
+                                   scrollX = TRUE,
+                                   scrollCollapse = TRUE,
+                                   paging = TRUE,
+                                   fixedHeader = TRUE), 
               selection = "single")
   })
   
@@ -194,9 +204,9 @@ server <- function(input, output, session) {
       showNotification("Select a row to edit.", type = "error")
       return()
     }
-
+    
     # Validate fields here, same as in add_row...
-
+    
     new_row <- data.frame(
       project_id = input$project_id,
       date = input$date,
@@ -221,17 +231,17 @@ server <- function(input, output, session) {
       calorimetry_method = input$calorimetry_method,
       stringsAsFactors = FALSE
     )
-
+    
     new_df <- df()
     new_df[selected, ] <- new_row
     df(new_df)
   })
-
-    observeEvent(input$table_rows_selected, {
+  
+  observeEvent(input$table_rows_selected, {
     selected <- input$table_rows_selected
     if (length(selected) == 1) {
       row <- df()[selected, ]
-
+      
       updateTextInput(session, "project_id", value = row$project_id)
       updateDateInput(session, "date", value = row$date)
       updateTextInput(session, "scientific_name", value = row$scientific_name)
